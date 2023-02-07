@@ -20,6 +20,25 @@ impl TryFrom<&str> for Move {
     }
 }
 
+enum PlayerIntention {
+    Win,
+    Draw,
+    Loss,
+}
+
+impl TryFrom<&str> for PlayerIntention {
+    type Error = String;
+
+    fn try_from(value: &str) -> Result<Self, Self::Error> {
+        match value {
+            "X" => Ok(PlayerIntention::Loss),
+            "Y" => Ok(PlayerIntention::Draw),
+            "Z" => Ok(PlayerIntention::Win),
+            _ => Err(format!("Illegal player intention {value}")),
+        }
+    }
+}
+
 create_day!(
     2,
     |file_content: String| {
@@ -37,8 +56,42 @@ create_day!(
 
         println!("{total_score}")
     },
-    |file_content: String| { todo!() }
+    |file_content: String| {
+        let turns_as_strings: Vec<(&str, &str)> = file_content
+            .lines()
+            .map(|line| line.split(' ').collect_tuple())
+            .map(Option::unwrap)
+            .collect_vec();
+
+        let total_score = turns_as_strings
+            .into_iter()
+            .map(|(opponent, intention)| {
+                (
+                    Move::try_from(opponent).unwrap(),
+                    get_fitting_player_move(
+                        Move::try_from(opponent).unwrap(),
+                        PlayerIntention::try_from(intention).unwrap(),
+                    ),
+                )
+            })
+            .map(|(opponent, player)| round_score(opponent, player))
+            .sum::<i32>();
+
+            println!("{total_score}");
+    }
 );
+
+fn get_fitting_player_move(opponent: Move, player: PlayerIntention) -> Move {
+    match (opponent, player) {
+        (any_move, PlayerIntention::Draw) => any_move,
+        (Move::Rock, PlayerIntention::Loss) => Move::Scissors,
+        (Move::Rock, PlayerIntention::Win) => Move::Paper,
+        (Move::Paper, PlayerIntention::Win) => Move::Scissors,
+        (Move::Paper, PlayerIntention::Loss) => Move::Rock,
+        (Move::Scissors, PlayerIntention::Win) => Move::Rock,
+        (Move::Scissors, PlayerIntention::Loss) => Move::Paper,
+    }
+}
 
 fn parse_turns(
     turn_as_str: Vec<(&str, &str)>,
