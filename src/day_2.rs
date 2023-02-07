@@ -77,7 +77,7 @@ create_day!(
             .map(|(opponent, player)| round_score(opponent, player))
             .sum::<i32>();
 
-            println!("{total_score}");
+        println!("{total_score}");
     }
 );
 
