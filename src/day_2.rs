@@ -1,8 +1,4 @@
-use std::fs;
-
-use crate::core_traits::Solution;
-use itertools::Itertools;
-pub struct Day2;
+use crate::create_day;
 
 #[derive(Debug)]
 enum Move {
@@ -24,11 +20,9 @@ impl TryFrom<&str> for Move {
     }
 }
 
-impl Solution for Day2 {
-    fn execute_first(&self) {
-        let file_content = fs::read_to_string("data/day_2.txt").unwrap();
-        let file_content = file_content.replace('\r', "");
-
+create_day!(
+    2,
+    |file_content: String| {
         let turns_as_strings: Vec<(&str, &str)> = file_content
             .lines()
             .map(|line| line.split(' ').collect_tuple())
@@ -40,14 +34,11 @@ impl Solution for Day2 {
             .into_iter()
             .map(|(opponent, player)| round_score(opponent.unwrap(), player.unwrap()))
             .sum::<i32>();
-            
-        println!("{total_score}")
-    }
 
-    fn execute_second(&self) {
-        todo!()
-    }
-}
+        println!("{total_score}")
+    },
+    |file_content: String| { todo!() }
+);
 
 fn parse_turns(
     turn_as_str: Vec<(&str, &str)>,
@@ -71,7 +62,7 @@ fn parse_turns(
                 },
             )
         })
-        .collect_vec()
+        .collect()
 }
 
 fn round_score(opponent: Move, player: Move) -> i32 {
