@@ -1,4 +1,5 @@
 use crate::create_day;
+use itertools::Itertools;
 
 create_day!(
     1,
