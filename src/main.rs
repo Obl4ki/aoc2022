@@ -5,6 +5,7 @@ mod core_traits;
 mod day_1;
 mod day_2;
 mod day_3;
+mod day_4;
 mod macros;
 
 fn main() {
@@ -12,6 +13,7 @@ fn main() {
         Box::new(day_1::Day),
         Box::new(day_2::Day),
         Box::new(day_3::Day),
+        Box::new(day_4::Day),
     ];
     for solution in all_solutions {
         solution.execute_first();
