@@ -1,5 +1,8 @@
+use itertools::Itertools;
+
 use crate::create_day;
 use std::collections::HashSet;
+
 create_day!(
     3,
     |file_content: String| {
@@ -26,7 +29,31 @@ create_day!(
 
         println!("{output}");
     },
-    |file_content: String| { todo!() }
+    |file_content: String| {
+        let output: u32 = file_content
+            .lines()
+            .chunks(3)
+            .into_iter()
+            .map(|chunk| chunk.collect_tuple::<(_, _, _)>().unwrap())
+            .map(|(first, second, third)| {
+                let first = first.chars().collect::<HashSet<char>>();
+                let second = second.chars().collect::<HashSet<char>>();
+                let third = third.chars().collect::<HashSet<char>>();
+
+                first
+                    .intersection(&second)
+                    .map(ToOwned::to_owned)
+                    .collect::<HashSet<char>>()
+                    .intersection(&third)
+                    .map(ToOwned::to_owned)
+                    .map(get_item_priority)
+                    .map(Result::unwrap)
+                    .sum::<u32>()
+            })
+            .sum();
+
+        println!("{output}");
+    }
 );
 
 fn get_item_priority(item: char) -> Result<u32, String> {
