@@ -7,6 +7,7 @@ mod day_2;
 mod day_3;
 mod day_4;
 mod day_5;
+mod day_6;
 mod macros;
 
 fn main() {
@@ -16,7 +17,8 @@ fn main() {
         Box::new(day_3::Day),
         Box::new(day_4::Day),
         Box::new(day_5::Day),
-    ];
+        Box::new(day_6::Day),
+        ];
     for solution in all_solutions {
         solution.execute_first();
         solution.execute_second();
