@@ -7,18 +7,36 @@ use crate::create_day;
 create_day!(
     6,
     |file_content: String| {
-        let index: usize = file_content
-            .chars()
-            .tuple_windows()
+        let n = 4;
+        let characters = file_content.chars().collect_vec();
+        let all_window_positions = 0..characters.len() - n;
+
+        let position = all_window_positions
+            .map(move |start| start..start + n)
+            .map(|range| characters.get(range).unwrap())
             .position(is_start_of_packet_marker)
             .expect("There should be a solution.")
-            + 4; // because this calculates the beginning of marker and we want the ending
-        println!("{index}")
+            + n;
+
+        println!("{position}");
     },
-    |file_content: String| {}
+    |file_content: String| {
+        let n = 14;
+        let characters = file_content.chars().collect_vec();
+        let all_window_positions = 0..characters.len() - n;
+
+        let position = all_window_positions
+            .map(move |start| start..start + n)
+            .map(|range| characters.get(range).unwrap())
+            .position(is_start_of_packet_marker)
+            .expect("There should be a solution.")
+            + n;
+
+        println!("{position}");
+    }
 );
 
-fn is_start_of_packet_marker(characters: (char, char, char, char)) -> bool {
-    let hs = HashSet::from([characters.0, characters.1, characters.2, characters.3]);
-    hs.len() == 4
+fn is_start_of_packet_marker(characters: &[char]) -> bool {
+    let hs: HashSet<char> = HashSet::from_iter(characters.iter().map(ToOwned::to_owned));
+    hs.len() == characters.len()
 }
