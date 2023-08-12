@@ -1,4 +1,4 @@
-mod file_structure;
+mod tree_walk;
 mod interpreter;
 mod solution;
 

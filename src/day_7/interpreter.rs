@@ -1,12 +1,12 @@
-use anyhow::anyhow;
+use anyhow::{anyhow, bail};
 use itertools::Itertools;
 
 #[derive(Debug, Hash, PartialEq, Eq)]
 pub enum ParsedLine {
     Ls,
-    Cd { dir_path: String },
-    CdUpwards,
     CdIntoRoot,
+    CdUpwards,
+    Cd { dir_path: String },
     CdDirRes { name: String },
     CdFileRes { size: usize, name: String },
 }
@@ -29,7 +29,12 @@ impl TryFrom<String> for ParsedLine {
             }),
 
             [file_size, file_name] => {
-                let parsed_size = file_size.parse().map_err(|e| anyhow!("{}", e))?;
+                let parsed_size = file_size.parse().map_err(|e| {
+                    anyhow!(
+                        "ERROR: Expected the file size as a first argument, but got {} instead",
+                        e
+                    )
+                })?;
 
                 Ok(Self::CdFileRes {
                     size: parsed_size,
@@ -37,10 +42,10 @@ impl TryFrom<String> for ParsedLine {
                 })
             }
 
-            _ => Err(anyhow!(
+            _ => bail!(
                 "ERROR: {:?} not recognized as an internal or external command...",
                 value
-            )),
+            ),
         }
     }
 }
