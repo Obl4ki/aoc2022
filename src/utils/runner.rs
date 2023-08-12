@@ -1,4 +1,4 @@
-use crate::core_traits::Solution;
+use crate::utils::core_traits::Solution;
 
 pub trait DayExerciseRunStrategy {
     fn run(days: DaysToRun);

@@ -1,7 +1,5 @@
 #![deny(clippy::all)]
 
-use core_traits::Solution;
-mod core_traits;
 mod day_1;
 mod day_2;
 mod day_3;
@@ -9,13 +7,15 @@ mod day_4;
 mod day_5;
 mod day_6;
 mod day_7;
-mod macros;
-mod runner;
+
+mod utils;
 
 use runner::DayExerciseRunStrategy;
+use utils::runner;
 
 fn main() {
-    let day_solutions: Vec<Box<dyn Solution>> = vec![
+    // runner::RunEveryDayBothParts::run(day_solutions);
+    runner::RunLastDayBothParts::run(runner::DaysToRun(vec![
         Box::new(day_1::Day),
         Box::new(day_2::Day),
         Box::new(day_3::Day),
@@ -23,8 +23,5 @@ fn main() {
         Box::new(day_5::Day),
         Box::new(day_6::Day),
         Box::new(day_7::Day),
-    ];
-
-    // runner::RunEveryDayBothParts::run(day_solutions);
-    runner::RunLastDayBothParts::run(runner::DaysToRun(day_solutions));
+    ]));
 }

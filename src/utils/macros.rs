@@ -3,7 +3,7 @@ macro_rules! create_day {
     ($day_num:literal, $exec_first_code:expr, $exec_second_code:expr) => {
         use std::fs;
 
-        use $crate::core_traits::Solution;
+        use $crate::utils::core_traits::Solution;
 
         pub struct Day;
 
