@@ -11,6 +11,7 @@ mod day_6;
 mod day_7;
 mod macros;
 mod runner;
+
 use runner::DayExerciseRunStrategy;
 
 fn main() {
@@ -25,5 +26,5 @@ fn main() {
     ];
 
     // runner::RunEveryDayBothParts::run(day_solutions);
-    runner::RunLastDayBothParts::run(day_solutions);
+    runner::RunLastDayBothParts::run(runner::DaysToRun(day_solutions));
 }
