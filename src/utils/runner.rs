@@ -14,15 +14,4 @@ impl DayExerciseRunStrategy for RunLastDayBothParts {
     }
 }
 
-pub struct RunEveryDayBothParts;
-
-impl DayExerciseRunStrategy for RunEveryDayBothParts {
-    fn run(DaysToRun(days): DaysToRun) {
-        for solution in days {
-            solution.execute_first();
-            solution.execute_second();
-        }
-    }
-}
-
 pub struct DaysToRun(pub Vec<Box<dyn Solution>>);
