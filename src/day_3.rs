@@ -57,10 +57,7 @@ create_day!(
 );
 
 fn get_item_priority(item: char) -> Result<u32, String> {
-    let converted = match u32::try_from(item) {
-        Ok(v) => Ok(v),
-        Err(_) => Err(format!("\"{item}\" doesnt have any assigned priority.")),
-    }?;
+    let converted = u32::from(item);
 
     if item.is_lowercase() {
         Ok(converted - 96)

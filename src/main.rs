@@ -14,7 +14,6 @@ use runner::DayExerciseRunStrategy;
 use utils::runner;
 
 fn main() {
-    // runner::RunEveryDayBothParts::run(day_solutions);
     runner::RunLastDayBothParts::run(runner::DaysToRun(vec![
         Box::new(day_1::Day),
         Box::new(day_2::Day),

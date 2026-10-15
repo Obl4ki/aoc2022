@@ -4,7 +4,7 @@ pub trait DayExerciseRunStrategy {
     fn run(days: DaysToRun);
 }
 
-pub struct RunLastDayBothParts;
+pub struct   RunLastDayBothParts;
 
 impl DayExerciseRunStrategy for RunLastDayBothParts {
     fn run(DaysToRun(days): DaysToRun) {
