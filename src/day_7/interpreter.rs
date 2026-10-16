@@ -1,12 +1,12 @@
 use anyhow::{anyhow, bail};
 use itertools::Itertools;
 
-#[derive(Debug, Hash, PartialEq, Eq)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone)]
 pub enum ParsedLine {
     Ls,
     Cd { dir_path: String },
-    CdDirRes { name: String },
-    CdFileRes { size: usize, name: String },
+    DirRes { name: String },
+    FileRes { size: usize, name: String },
 }
 
 impl TryFrom<&str> for ParsedLine {
@@ -20,7 +20,7 @@ impl TryFrom<&str> for ParsedLine {
                 dir_path: dir_path.to_owned(),
             }),
 
-            ["dir", directory_name] => Ok(Self::CdDirRes {
+            ["dir", directory_name] => Ok(Self::DirRes {
                 name: directory_name.to_owned(),
             }),
 
@@ -32,7 +32,7 @@ impl TryFrom<&str> for ParsedLine {
                     )
                 })?;
 
-                Ok(Self::CdFileRes {
+                Ok(Self::FileRes {
                     size: parsed_size,
                     name: file_name.to_owned(),
                 })
@@ -103,16 +103,16 @@ mod test {
 
         let expected: Vec<ParsedLine> = vec![
             ParsedLine::Ls,
-            ParsedLine::CdDirRes {
+            ParsedLine::DirRes {
                 name: "cgw".to_string(),
             },
-            ParsedLine::CdDirRes {
+            ParsedLine::DirRes {
                 name: "fbhz".to_string(),
             },
-            ParsedLine::CdDirRes {
+            ParsedLine::DirRes {
                 name: "lvrzvt".to_string(),
             },
-            ParsedLine::CdFileRes {
+            ParsedLine::FileRes {
                 size: 224312,
                 name: "vngq".to_string(),
             },
