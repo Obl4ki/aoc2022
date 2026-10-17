@@ -34,7 +34,7 @@ create_day!(
             })
             .count();
 
-        println!("{}", &counts)
+        println!("{}", counts)
     },
     |file_content: String| {
         let pairs_iter = file_content
@@ -64,6 +64,6 @@ create_day!(
             .filter(|((_, first_end), (second_start, _))| first_end >= second_start)
             .count();
 
-        println!("{}", &counts)
+        println!("{}", counts)
     }
 );

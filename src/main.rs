@@ -7,6 +7,7 @@ mod day_4;
 mod day_5;
 mod day_6;
 mod day_7;
+mod day_8;
 
 mod utils;
 
@@ -22,5 +23,6 @@ fn main() {
         Box::new(day_5::Day),
         Box::new(day_6::Day),
         Box::new(day_7::Day),
+        Box::new(day_8::Day),
     ]));
 }

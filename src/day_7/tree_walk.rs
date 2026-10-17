@@ -77,7 +77,7 @@ pub fn get_filesystem_objects(parsed_lines: Vec<ParsedLine>) -> FileSystemObject
     for (path, (size, file_type)) in dir_sizes {
         *filesystem_objects
             .get_mut(&path)
-            .unwrap_or_else(|| panic!("Expected `{}` to exist in filesystem objects", &path)) =
+            .unwrap_or_else(|| panic!("Expected `{}` to exist in filesystem objects", path)) =
             (size, file_type);
     }
 
