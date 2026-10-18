@@ -1,14 +1,13 @@
 use std::collections::HashMap;
 
+type VisibleElements = HashMap<(usize, usize), u32>;
+
 pub struct Grid {
-    // Represented as a flat vector, with elements stored in row-major order
+    /// A grid of elements, represented as a flat vector with elements stored in row-major order.
     elements: Vec<u32>,
     pub width: usize,
     pub height: usize,
 }
-
-type VisibleElementPosition = (usize, usize); // (row_idx, col_idx)
-type VisibleElements = HashMap<VisibleElementPosition, u32>; // (row_idx, col_idx) -> height
 
 impl From<String> for Grid {
     fn from(file_content: String) -> Self {
@@ -95,6 +94,59 @@ impl Grid {
 
         visible_elements
     }
+
+    pub fn get_biggest_scenic_score(&self) -> u32 {
+        let mut max_score = 0;
+
+        for row_idx in 0..self.height {
+            for col_idx in 0..self.width {
+                let score = self.get_scenic_score(row_idx, col_idx);
+                if score > max_score {
+                    max_score = score;
+                }
+            }
+        }
+
+        max_score
+    }
+
+    pub fn get_scenic_score(&self, row_idx: usize, col_idx: usize) -> u32 {
+        let current_height = self.get(row_idx, col_idx).unwrap();
+
+        let mut left_score = 0;
+        for x in (0..col_idx).rev() {
+            left_score += 1;
+            if self.get(row_idx, x).unwrap() >= current_height {
+                break;
+            }
+        }
+
+        let mut right_score = 0;
+        for x in (col_idx + 1)..self.width {
+            right_score += 1;
+            if self.get(row_idx, x).unwrap() >= current_height {
+                break;
+            }
+        }
+
+        let mut up_score = 0;
+        for y in (0..row_idx).rev() {
+            up_score += 1;
+            if self.get(y, col_idx).unwrap() >= current_height {
+                break;
+            }
+        }
+
+        let mut down_score = 0;
+        for y in (row_idx + 1)..self.height {
+            down_score += 1;
+            if self.get(y, col_idx).unwrap() >= current_height {
+                break;
+            }
+        }
+
+        left_score * right_score * up_score * down_score
+    }
 }
 
 #[cfg(test)]
@@ -147,4 +199,33 @@ mod tests {
 
         assert_equal_hashmaps(&actual_visible, &expected_visible);
     }
+
+    // #[test]
+    // fn test_get_monotonic_ranges() {
+    //     let input = "30373\n25512\n65332\n33549\n35390".to_string();
+    //     let grid = Grid::from(input);
+
+    //     let actual_ranges = grid.get_monotonic_ranges(Direction::LeftToRight);
+
+    //     let expected_ranges = DecreasingMonotonicRanges {
+    //         ranges: vec![
+    //             DecreasingMonotonicRange {
+    //                 start_x: 0,
+    //                 end_x: 0,
+    //                 start_y: 0,
+    //                 end_y: 1,
+    //                 direction: Direction::LeftToRight,
+    //             },
+    //             DecreasingMonotonicRange {
+    //                 start_x: 2,
+    //                 end_x: 3,
+    //                 start_y: 0,
+    //                 end_y: 1,
+    //                 direction: Direction::LeftToRight,
+    //             },
+    //         ],
+    //     };
+
+    //     assert_equal_hashmaps(&actual_ranges, &expected_ranges);
+    // }
 }
