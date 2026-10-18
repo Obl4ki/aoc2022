@@ -199,33 +199,4 @@ mod tests {
 
         assert_equal_hashmaps(&actual_visible, &expected_visible);
     }
-
-    // #[test]
-    // fn test_get_monotonic_ranges() {
-    //     let input = "30373\n25512\n65332\n33549\n35390".to_string();
-    //     let grid = Grid::from(input);
-
-    //     let actual_ranges = grid.get_monotonic_ranges(Direction::LeftToRight);
-
-    //     let expected_ranges = DecreasingMonotonicRanges {
-    //         ranges: vec![
-    //             DecreasingMonotonicRange {
-    //                 start_x: 0,
-    //                 end_x: 0,
-    //                 start_y: 0,
-    //                 end_y: 1,
-    //                 direction: Direction::LeftToRight,
-    //             },
-    //             DecreasingMonotonicRange {
-    //                 start_x: 2,
-    //                 end_x: 3,
-    //                 start_y: 0,
-    //                 end_y: 1,
-    //                 direction: Direction::LeftToRight,
-    //             },
-    //         ],
-    //     };
-
-    //     assert_equal_hashmaps(&actual_ranges, &expected_ranges);
-    // }
 }
